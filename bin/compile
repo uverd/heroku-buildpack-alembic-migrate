@@ -1,23 +1,12 @@
 #!/usr/bin/env bash
 
-# fail fast and fail hard
-set -eo pipefail
-
 echo "-----> Running Alembic migration"
 
-set -x
 
-build_dir=$1
-cache_dir=$2
-env_dir=$3
+BUILD_DIR=${1:-}
+CACHE_DIR=${2:-}
+ENV_DIR=${3:-}
 
-blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
-if [ -d "$env_dir" ]; then
-  for e in $(ls $env_dir); do
-    echo "$e" | grep -qvE "$blacklist_regex" &&
-      export "$e=$(cat $env_dir/$e)"
-    :
-  done
-fi
 
-(cd $build_dir && alembic upgrade head)
+export PYTHONPATH=$PWD
+cd $BUILD_DIR && alembic upgrade head
