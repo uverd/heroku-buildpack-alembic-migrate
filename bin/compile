@@ -9,4 +9,6 @@ ENV_DIR=${3:-}
 
 
 export PYTHONPATH=$PWD
-cd $BUILD_DIR && alembic upgrade head
+cd $BUILD_DIR 
+ls -lah
+alembic upgrade head
